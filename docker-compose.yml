@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=${DB_PASSWORD}
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes: 
+      - sql_data:/var/opt/mssql
+
+  gestionprojet-api:
+    build: ../GestionProjet
+    image: gestionprojet-service
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+
+  rh-api:
+    build: ../ModuleRH
+    image: rh-service
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+
+  crm-api:
+    build: ../ModuleCRM
+    image: crm-service
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+  
+  helpdesk-timesheet-api:
+    build: ../Modulehelpdesktimesheet 
+    image: helpdesktimesheet-service #the image name
+    ports:
+      - "5004:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+
+  bi-api:
+    build: ../ModuleBI
+    image: bi-service
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on: #This means: Docker starts SQL Server first then the services
+      - sqlserver 
+volumes: 
+  sql_data:
