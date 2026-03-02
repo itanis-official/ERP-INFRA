@@ -6,7 +6,6 @@ Ce repository permet d’orchestrer l’infrastructure du projet ERP, notamment 
     - les microservices
     - le frontend
 
-
 1️⃣ Prérequis
 
 Avant de commencer, assurez-vous d’avoir installé :
