@@ -57,10 +57,15 @@ services:
     build: ../ModuleBI
     image: bi-service
     ports:
-      - "5005:8080"
+      - "5005:8080" # 5005 sur le PC → 8080 dans le container
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on: #This means: Docker starts SQL Server first then the services
       - sqlserver 
+  erp-frontend:
+    build: ../ERPFrontend
+    image: erp-frontend
+    ports:
+      - "3000:5173" # 5001 sur ton PC → 8080 dans le container
 volumes: 
   sql_data:
