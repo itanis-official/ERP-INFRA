@@ -62,6 +62,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on: #This means: Docker starts SQL Server first then the services
       - sqlserver 
+      
+  helpdesk-api:
+    build: ../ModuleHelpdesk
+    image: helpdesk-service
+    ports:
+      - "5006:8080" # 5005 sur le PC → 8080 dans le container
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on: #This means: Docker starts SQL Server first then the services
+      - sqlserver 
+
   erp-frontend:
     build: ../ERPFrontend
     image: erp-frontend
